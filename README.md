@@ -75,6 +75,8 @@
 ---
 
 ### Grid Layout
+![Sath Lemon grid layout](Grid-Layout.png)
+
 
 the grid provides visual feedback and tactile control over all loop functions. each row represents a voice, with real-time visualization of loop position and length.
 
