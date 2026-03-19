@@ -20,12 +20,6 @@
 
 ---
 
-## Versions
-
-**`Sath_lemon.lua`** — standard version, compatible with any grid via midigrid.
-
----
-
 ## Installation
 
 **via maiden:**
@@ -164,45 +158,6 @@ sath lemon supports direct loop selection by interacting with the voice rows on 
 - select loop start and end points directly on the grid by holding two pads
 - use the function button (row 8, pad 16) for minimum loop selection
 - encoders remain available for fine-tuning
-
----
-
-## MK3 RGB Setup
-
-`Sath_lemon_mk3.lua` uses full RGB colors on the Launchpad Mini MK3. to enable this, you need to modify the `brightness_map` in midigrid.
-
-**backup first:**
-```lua
-os.execute("cp /home/we/dust/code/midigrid/lib/devices/launchpad_rgb.lua /home/we/dust/code/midigrid/lib/devices/launchpad_rgb.lua.bak")
-```
-
-**then apply the new brightness_map from maiden:**
-```lua
-local f = io.open("/home/we/dust/code/midigrid/lib/devices/launchpad_rgb.lua", "w")
-f:write('local launchpad = include(\'midigrid/lib/devices/generic_device\')\nlaunchpad.grid_notes= {\n  {81,82,83,84,85,86,87,88},\n  {71,72,73,74,75,76,77,78},\n  {61,62,63,64,65,66,67,68},\n  {51,52,53,54,55,56,57,58},\n  {41,42,43,44,45,46,47,48},\n  {31,32,33,34,35,36,37,38},\n  {21,22,23,24,25,26,27,28},\n  {11,12,13,14,15,16,17,18}\n}\nlaunchpad.brightness_map = {\n  0, 1, 2, 3, 21, 49, 37, 45,\n  13, 9, 38, 9, 5, 13, 12, 119\n}\nreturn launchpad\n')
-f:close()
-print("done")
-```
-
-**to restore the original:**
-```lua
-os.execute("cp /home/we/dust/code/midigrid/lib/devices/launchpad_rgb.lua.bak /home/we/dust/code/midigrid/lib/devices/launchpad_rgb.lua")
-```
-
-**note:** this modification affects all scripts that use midigrid with the Launchpad Mini MK3. other scripts will still work correctly but will use the new color mapping.
-
-### MK3 Color Legend
-
-| color | state |
-|-------|-------|
-| white | selected voice / inactive button |
-| green | playing |
-| red | stopped with sample / recording |
-| blue | selected voice (row 5) / muted |
-| cyan | reverse active / play all available |
-| purple | stop all active / speed preset |
-| orange | 2x speed preset |
-| yellow | has sample, stopped |
 
 ---
 
