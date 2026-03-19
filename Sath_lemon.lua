@@ -41,6 +41,11 @@ end
 local selected_voice = 1
 local enc_page = 1
 
+-- Loop selection via pad hold
+local held_x     = nil
+local held_voice = nil
+local fn_held    = false  -- tasto funzione: riga 8 pad 16
+
 -- Splash screen
 local splash_active = true
 local splash_metro = metro.init()
@@ -416,39 +421,53 @@ end
 function g.key(x, y, z)
   if z == 1 then
     if y <= 4 then
-      -- Clic sulla riga della voce = seleziona quella voce
-      selected_voice = y
-      redraw()
+      if fn_held then
+        -- Tasto funzione: imposta loop minimo (1 pad) sulla posizione premuta
+        local v          = voices[y]
+        selected_voice   = y
+        local new_pos_sc = ((x - 1) / 16) * v.recorded_length
+        local new_length = util.clamp((1 / 16) * v.recorded_length, 0.1, v.recorded_length)
+        v.pos         = util.clamp(new_pos_sc / math.max(v.recorded_length - new_length, 0.001), 0, 1)
+        v.loop_length = new_length
+        update_loop(y)
+        redraw()
+      elseif held_x == nil then
+        -- Primo pad: salva posizione
+        held_x     = x
+        held_voice = y
+      else
+        -- Secondo pad sulla stessa riga: seleziona porzione loop
+        if y == held_voice then
+          local v          = voices[held_voice]
+          local x1         = math.min(held_x, x)
+          local x2         = math.max(held_x, x)
+          local new_pos_sc = ((x1 - 1) / 16) * v.recorded_length
+          local new_length = util.clamp(((x2 - x1 + 1) / 16) * v.recorded_length, 0.1, v.recorded_length)
+          v.pos         = util.clamp(new_pos_sc / math.max(v.recorded_length - new_length, 0.001), 0, 1)
+          v.loop_length = new_length
+          update_loop(held_voice)
+          redraw()
+        end
+      end
     elseif y == 5 then
       if x <= 4 then
-        -- Selezione voce (primi 4 pad) - riga 5
         selected_voice = x
         redraw()
       end
     elseif y == 6 then
       if x <= 4 then
-        -- Play/Stop voci (primi 4 pad) - riga 6
         toggle_voice(x)
         redraw()
       elseif x == 8 then
-        -- Play All / Stop All toggle - riga 6, colonna 8
         local any_playing = false
         for i = 1, 4 do
-          if voices[i].playing then
-            any_playing = true
-            break
-          end
+          if voices[i].playing then any_playing = true; break end
         end
-        
         if any_playing then
-          -- Se qualcuna suona, ferma tutte
           for i = 1, 4 do
-            if voices[i].playing then
-              stop_voice(i)
-            end
+            if voices[i].playing then stop_voice(i) end
           end
         else
-          -- Se nessuna suona, fai partire tutte quelle con sample
           for i = 1, 4 do
             if voices[i].has_sample and not voices[i].playing then
               play_voice(i)
@@ -457,22 +476,35 @@ function g.key(x, y, z)
         end
         redraw()
       elseif x >= 9 and x <= 12 then
-        -- Reverse toggle (colonne 9-12) - riga 6
         toggle_reverse(x - 8)
         redraw()
       elseif x >= 13 and x <= 16 then
-        -- Pitch/Speed presets (colonne 13-16) - riga 6
         local speed_presets = {0.5, 1.0, 1.5, 2.0}
         voices[selected_voice].pitch_target = speed_presets[x - 12]
-        -- Il glide metro farà partire la transizione graduale
         redraw()
       end
     elseif y == 7 then
-      -- Mute voci (primi 4 pad) - riga 7
       if x <= 4 then
         toggle_mute(x)
         redraw()
       end
+    elseif y == 8 then
+      if x == 16 then
+        fn_held = true
+      end
+    end
+  else
+    -- Release
+    if y <= 4 then
+      if held_x == x and held_voice == y then
+        -- Click singolo: seleziona voce
+        selected_voice = y
+        redraw()
+      end
+      held_x     = nil
+      held_voice = nil
+    elseif y == 8 and x == 16 then
+      fn_held = false
     end
   end
 end
@@ -632,7 +664,10 @@ function grid_redraw()
       end
     end
   end
-  
+
+  -- Pad funzione: riga 8, pad 16 (loop minimo)
+  g:led(16, 8, fn_held and 15 or 3)
+
   g:refresh()
 end
 
