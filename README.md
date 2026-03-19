@@ -24,8 +24,6 @@
 
 **`Sath_lemon.lua`** — standard version, compatible with any grid via midigrid.
 
-**`Sath_lemon_mk3.lua`** — Launchpad Mini MK3 version with full RGB color feedback. requires a modified `brightness_map` in midigrid (see [MK3 RGB Setup](#mk3-rgb-setup) below).
-
 ---
 
 ## Installation
