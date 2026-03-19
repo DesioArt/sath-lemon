@@ -6,7 +6,7 @@
 
 *the script features extensive grid/launchpad integration with visual feedback, making it perfect for hands-on live performance.*
 
-!!! Add loop selection via pad !!!
+!!! Add grid pad loop selection: hold two pads to set loop start/end, function button for minimum loop size !!!
 
 ---
 
