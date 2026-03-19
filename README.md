@@ -8,6 +8,8 @@
 
 !!! Add grid pad loop selection: hold two pads to set loop start/end, function button for minimum loop size !!!
 
+This script was developed with the assistance of Claude (Anthropic) as a collaborative coding tool.
+
 ---
 
 ## Splash screen
