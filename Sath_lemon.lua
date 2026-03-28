@@ -10,8 +10,8 @@ local redraw_metro = metro.init()
 local grid_redraw_metro = metro.init()
 
 -- Parametri globali
-local BUFFER_LEN = 60  -- 60 secondi totali
-local VOICE_LEN = 15  -- 15 secondi per voce (60/4)
+local BUFFER_LEN = 120  -- 120 secondi totali
+local VOICE_LEN = 30   -- 30 secondi per voce (120/4)
 
 local recording = false
 local rec_time = 0
@@ -197,7 +197,8 @@ function start_recording(voice)
     softcut.level_input_cut(2, voice, 1.0)
   end
   
-  softcut.level(voice, v.level)
+  -- Silenzia l'output durante la registrazione per non sentire il vecchio loop
+  softcut.level(voice, 0)
   softcut.pan(voice, v.pan)
   softcut.loop(voice, 1)
   softcut.loop_start(voice, v.buffer_start)
