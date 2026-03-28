@@ -2,13 +2,9 @@
 
 **performance looper with 4 independent voices and dynamic loop control.**
 
-*sath lemon is a live performance looper designed for spontaneous composition and layering. each of the four voices can record up to 15 seconds of audio, with intelligent loop length management that adapts to your recording duration — no unwanted silence at the end of your loops.*
+*sath lemon is a live performance looper designed for spontaneous composition and layering. each of the four voices can record up to 30 seconds of audio, with intelligent loop length management that adapts to your recording duration — no unwanted silence at the end of your loops.*
 
 *the script features extensive grid/launchpad integration with visual feedback, making it perfect for hands-on live performance.*
-
-!!! Add grid pad loop selection: hold two pads to set loop start/end, function button for minimum loop size !!!
-
-This script was developed with the assistance of Claude (Anthropic) as a collaborative coding tool.
 
 ---
 
@@ -64,7 +60,7 @@ This script was developed with the assistance of Claude (Anthropic) as a collabo
 ### Recording Workflow
 
 1. select a voice (E1 or grid)
-2. press K2 to start recording (max 15 seconds)
+2. press K2 to start recording (max 30 seconds)
 3. press K2 again to stop — the loop automatically starts playing
 4. the loop length is set to your actual recording duration (no silence added)
 5. tweak loop parameters in real-time while playing
@@ -73,7 +69,12 @@ This script was developed with the assistance of Claude (Anthropic) as a collabo
 - if you record 7 seconds and stop, `loop_length = 7s`
 - you can reduce it (E2) to 2s, 3s, etc.
 - E2 will never go beyond your recorded length (no unwanted silence)
-- if you record the full 15 seconds, you get the full range
+- if you record the full 30 seconds, you get the full range
+
+**Clean re-recording:**
+- starting a new recording on a voice automatically silences the old loop
+- you won't hear the previous content bleeding through while recording
+- the new loop plays back cleanly once recording stops
 
 ---
 
@@ -107,7 +108,7 @@ the grid provides visual feedback and tactile control over all loop functions. e
 - columns 1–4: mute/unmute voices 1–4
 
 **Row 8: progress indicator + function button**
-- during recording: shows recording progress (0–15 seconds)
+- during recording: shows recording progress (0–30 seconds)
 - during playback: shows all active loops with different brightnesses per voice
 - **pad 16**: function button — hold to enable minimum loop selection on rows 1–4
 
@@ -158,11 +159,6 @@ sath lemon supports direct loop selection by interacting with the voice rows on 
 - function button (row 8, pad 16) + tap for minimum loop size
 - combine with encoders for precise control
 
-**Loop selection via grid**
-- select loop start and end points directly on the grid by holding two pads
-- use the function button (row 8, pad 16) for minimum loop selection
-- encoders remain available for fine-tuning
-
 ---
 
 ## Tips & Tricks
@@ -178,7 +174,7 @@ reverse + slow speed (0.5x) = ambient, backwards atmospheres.
 reverse + fast speed (2.0x) = glitchy, chaotic textures.
 
 **Live chopping:**
-record long phrases (15s), then hold two pads on the voice row to instantly select a loop region — perfect for finding unexpected moments in real time.
+record long phrases (30s), then hold two pads on the voice row to instantly select a loop region — perfect for finding unexpected moments in real time.
 
 **Performance workflow:**
 use grid for hands-on performance, adjust fine parameters with norns encoders, switch between LOOP and PITCH pages for different control needs.
